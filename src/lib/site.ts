@@ -23,16 +23,17 @@ type Site = {
 
 /** What search engines and link previews read about this site. */
 export const site: Site = {
-  name: 'My App',
-  description: 'Built with Layerwise',
+  name: 'Strata',
+  description:
+    'Postgres-compatible distributed SQL that keeps a copy of your data close to every user and survives a region going down.',
   url: '',
-  image: '',
-  imageAlt: '',
+  image: '/share/home.png',
+  imageAlt: 'Strata drawing sheet: a world map with six regions and the routes between them',
   googleSiteVerification: ''
 };
 
 /** Public pages in `/sitemap.xml`. Add every page search engines should find. */
-export const sitemapPaths: string[] = ['/'];
+export const sitemapPaths: string[] = ['/', '/architecture', '/privacy', '/terms'];
 
 const requestOrigin = createIsomorphicFn()
   .server(() => getRequestUrl().origin)

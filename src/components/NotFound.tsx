@@ -1,25 +1,60 @@
-import { Link } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router';
+import { TitleBlock } from '~/components/blueprint/TitleBlock';
+import { notFound } from '~/content/legal';
 
-export function NotFound({ children }: { children?: any }) {
+/** The 404 page: a blank drawing sheet with a rubber stamp. */
+export function NotFound() {
+  const meta = { ...notFound.sheet, scale: '—' };
   return (
-    <div className="space-y-2 p-2">
-      <div className="text-gray-600 dark:text-gray-400">
-        {children || <p>The page you are looking for does not exist.</p>}
+    <section
+      aria-labelledby='not-found-title'
+      className='mx-auto w-full max-w-[1360px] px-3 pt-10 sm:px-6 lg:px-8'
+    >
+      <div className='sheet relative flex min-h-[34rem] flex-col sm:min-h-[40rem]'>
+        <div className='flex justify-end border-b border-ink'>
+          <TitleBlock meta={meta} row className='hidden border-l border-ink lg:grid' />
+          <TitleBlock meta={meta} className='w-full lg:hidden' />
+        </div>
+
+        <div className='relative flex flex-1 flex-col items-center justify-center px-6 py-16 text-center'>
+          {/* Registration crosshairs at the sheet centre lines. */}
+          <svg
+            aria-hidden='true'
+            className='pointer-events-none absolute inset-0 h-full w-full text-ink-muted'
+          >
+            <line x1='50%' x2='50%' y1='0' y2='18' stroke='currentColor' />
+            <line x1='50%' x2='50%' y1='100%' y2='calc(100% - 18px)' stroke='currentColor' />
+            <line x1='0' x2='18' y1='50%' y2='50%' stroke='currentColor' />
+            <line x1='100%' x2='calc(100% - 18px)' y1='50%' y2='50%' stroke='currentColor' />
+          </svg>
+
+          <div
+            className='stamp mb-10 inline-block -rotate-[7deg] border-[3px] border-double border-ink-blue px-6 py-3 text-ink-blue sm:px-9 sm:py-4'
+            role='img'
+            aria-label={notFound.stamp}
+          >
+            <span className='mono block text-[1.6rem] leading-none font-medium tracking-[0.14em] uppercase sm:text-[2.4rem]'>
+              {notFound.stamp}
+            </span>
+            <span className='annot-xs mt-2 block tracking-[0.3em]'>
+              Ref. X-404 · Not issued
+            </span>
+          </div>
+
+          <h1 id='not-found-title' className='heading text-[1.75rem] sm:text-[2.25rem]'>
+            {notFound.title}
+          </h1>
+          <p className='body-copy mt-3 max-w-md'>{notFound.body}</p>
+          <div className='mt-8 flex flex-wrap justify-center gap-3'>
+            <Link to='/' className='btn btn-primary'>
+              {notFound.home}
+            </Link>
+            <Link to='/architecture' className='btn btn-secondary'>
+              {notFound.architecture}
+            </Link>
+          </div>
+        </div>
       </div>
-      <p className="flex items-center gap-2 flex-wrap">
-        <button
-          onClick={() => window.history.back()}
-          className="bg-emerald-500 text-white px-2 py-1 rounded-sm uppercase font-black text-sm"
-        >
-          Go back
-        </button>
-        <Link
-          to="/"
-          className="bg-cyan-600 text-white px-2 py-1 rounded-sm uppercase font-black text-sm"
-        >
-          Start Over
-        </Link>
-      </p>
-    </div>
-  )
+    </section>
+  );
 }

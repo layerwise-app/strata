@@ -13,3 +13,4 @@ overrides:
 allowBuilds:
   esbuild: true
   workerd: true
+  sharp: true
