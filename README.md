@@ -21,18 +21,18 @@ It is built with TanStack Start, React, Tailwind CSS and Cloudflare Workers
 
 ## Where things live
 
-| What                                        | File                                     |
-| ------------------------------------------- | ---------------------------------------- |
-| Names, nav, buttons, social links, colors, fonts, owner email | `src/site.config.ts`   |
-| All home-page copy, in page order           | `src/content/home.ts`                    |
-| Regions, cities and latency numbers         | `src/content/topology.ts`                |
-| Architecture page, one file per section     | `src/content/architecture/`              |
-| Privacy, Terms and 404 copy                 | `src/content/legal.ts`                   |
-| Images added with `pnpm add-images`         | `public/images/`, `src/content/images.json` |
-| Product screens drawn in code               | `src/components/screens/`                |
-| Search titles, share image, sitemap pages   | `src/lib/site.ts`                        |
-| Form rules (validation, duplicates, rate limit, email cap) | `src/server/design-partner.ts` |
-| Database tables                             | `src/db/schema.ts`                       |
+| What                                                                         | File                                        |
+| ---------------------------------------------------------------------------- | ------------------------------------------- |
+| Names, nav, buttons, contact email, social links, colors, fonts, owner email | `src/site.config.ts`                        |
+| All home-page copy, in page order                                            | `src/content/home.ts`                       |
+| Regions, cities and latency numbers                                          | `src/content/topology.ts`                   |
+| Architecture page, one file per section                                      | `src/content/architecture/`                 |
+| Privacy, Terms and 404 copy                                                  | `src/content/legal.ts`                      |
+| Images added with `pnpm add-images`                                          | `public/images/`, `src/content/images.json` |
+| Product screens drawn in code                                                | `src/components/screens/`                   |
+| Search titles, share image, sitemap pages                                    | `src/lib/site.ts`                           |
+| Form rules (validation, duplicates, rate limit, email cap)                   | `src/server/design-partner.ts`              |
+| Database tables                                                              | `src/db/schema.ts`                          |
 
 ## Rewrite the copy
 
@@ -51,6 +51,25 @@ It is built with TanStack Start, React, Tailwind CSS and Cloudflare Workers
 - **Share images** (1200×630, one per page in `public/share/`) are made from the
   same copy. Run `pnpm share-images` after changing titles, colors or
   architecture sections.
+
+## Contact email and social links
+
+They ship empty on purpose. A placeholder address like `hello@ironleaf.example`
+would send visitors' mail to an inbox nobody reads, so nothing links to an
+address or profile until you set a real one in `src/site.config.ts`:
+
+- `contactEmail`: while it is empty, the footer and the Privacy and Terms pages
+  show no email link, the structured data on the home page leaves `email` out,
+  and the Privacy page tells people to reply to the email they get about their
+  application instead. Once set, the address appears in the footer, at the foot
+  of both legal pages, in the Privacy page's "Your choices" section (that
+  wording is in `legalContact` in `src/content/legal.ts`), and in the structured
+  data.
+- `social`: each link appears in the footer and in the structured data's
+  `sameAs` only when its `href` is set to the real profile.
+
+`pnpm test` fails if any of these is set to a reserved example domain
+(`*.example`, `example.com`, `*.test` and so on).
 
 ## Add an item
 
@@ -166,7 +185,7 @@ sites send after the first publish.
 ```bash
 pnpm check-types     # TypeScript
 pnpm lint            # oxlint
-pnpm test            # Vitest: the form rules and the topology model
+pnpm test            # Vitest: form rules, topology model, no placeholder contacts
 pnpm build           # production build
 pnpm add-images <files…> [--name=key]   # prepare images (see above)
 pnpm share-images    # re-render public/share/*.png

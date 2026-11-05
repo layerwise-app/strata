@@ -1,6 +1,6 @@
 import { Sheet, sheetPad } from '~/components/blueprint/Sheet';
-import type { LegalPage as LegalContent } from '~/content/legal';
-import { siteConfig } from '~/site.config';
+import { legalContact, type LegalPage as LegalContent } from '~/content/legal';
+import { contact, siteConfig } from '~/site.config';
 
 export function LegalPage({ page }: { page: LegalContent }) {
   return (
@@ -28,7 +28,7 @@ export function LegalPage({ page }: { page: LegalContent }) {
                   <h2 className='heading text-[1.375rem]'>{s.heading}</h2>
                   {s.paragraphs.map((p) => (
                     <p key={p} className='body-copy mt-2 text-ink'>
-                      {p}
+                      <Paragraph text={p} />
                     </p>
                   ))}
                 </div>
@@ -36,13 +36,41 @@ export function LegalPage({ page }: { page: LegalContent }) {
             ))}
           </ol>
           <p className='body-copy mt-6'>
-            {siteConfig.companyLegal}, {siteConfig.companyCity}, {siteConfig.companyCountry} ·{' '}
-            <a className='link text-ink' href={`mailto:${siteConfig.contactEmail}`}>
-              {siteConfig.contactEmail}
-            </a>
+            {siteConfig.companyLegal}, {siteConfig.companyCity}, {siteConfig.companyCountry}
+            {contact.email ? (
+              <>
+                {' · '}
+                <EmailLink />
+              </>
+            ) : null}
           </p>
         </div>
       </div>
     </Sheet>
+  );
+}
+
+/** Fills in `{contact}`: the email link when one is set, wording without it when not. */
+function Paragraph({ text }: { text: string }) {
+  const [before, after] = text.split('{contact}');
+  if (after === undefined) return text;
+  if (!contact.email) return `${before}${legalContact.withoutEmail}${after}`;
+  const [lead, tail] = legalContact.withEmail.split('{email}');
+  return (
+    <>
+      {before}
+      {lead}
+      <EmailLink />
+      {tail}
+      {after}
+    </>
+  );
+}
+
+function EmailLink() {
+  return (
+    <a className='link text-ink break-all' href={`mailto:${contact.email}`}>
+      {contact.email}
+    </a>
   );
 }

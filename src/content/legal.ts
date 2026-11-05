@@ -8,8 +8,19 @@ export type LegalPage = {
   sections: { heading: string; paragraphs: string[] }[];
 };
 
+/**
+ * How the legal pages tell people to reach us. Where a paragraph says
+ * `{contact}`, it reads `withEmail` (the address linked where it says `{email}`)
+ * when siteConfig.contactEmail is set, and `withoutEmail` while it is empty.
+ */
+export const legalContact = {
+  withEmail: 'by writing to {email}',
+  withoutEmail:
+    'by replying to the email we send about your application (every applicant hears from us within two working days)'
+};
+
 export const privacy: LegalPage = {
-  sheet: { number: 'C-01', name: 'Privacy', revision: 'A', date: '2026-11-02' },
+  sheet: { number: 'C-01', name: 'Privacy', revision: 'B', date: '2026-11-06' },
   title: 'Privacy',
   intro:
     'This site collects as little as it can. Here is all of it, what we do with it, and how to have it removed.',
@@ -47,7 +58,7 @@ export const privacy: LegalPage = {
     {
       heading: 'Your choices',
       paragraphs: [
-        'Ask us for a copy of what we hold about you, to correct it or to delete it, by writing to the address below. We answer within 30 days. Ironleaf Systems AG is based in Zurich, and you can also contact the Swiss Federal Data Protection and Information Commissioner.'
+        'Ask us for a copy of what we hold about you, to correct it or to delete it, {contact}. We answer within 30 days. Ironleaf Systems AG is based in Zurich, and you can also contact the Swiss Federal Data Protection and Information Commissioner.'
       ]
     }
   ]

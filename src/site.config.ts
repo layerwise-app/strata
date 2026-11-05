@@ -34,8 +34,12 @@ export const siteConfig = {
   companySize: 40,
   product: 'Strata',
   tagline: 'Distributed SQL that keeps a copy of your data close to every user.',
-  /** Public contact address shown on Privacy and Terms (not a form target). */
-  contactEmail: 'hello@ironleaf.example',
+  /**
+   * Public contact address. Leave it empty until a real inbox is read: while it
+   * is empty the footer and legal pages show no email link and the structured
+   * data leaves it out. Once set, it appears in all three.
+   */
+  contactEmail: '',
 
   /**
    * New design-partner sign-ups are emailed here (at most 100 a day). Leave it
@@ -61,7 +65,10 @@ export const siteConfig = {
     secondaryHref: '/architecture'
   },
 
-  /** Shown in the footer when `href` is set. */
+  /**
+   * Shown in the footer, and listed as `sameAs` in the structured data, only
+   * once `href` is set to the real profile.
+   */
   social: [
     { label: 'GitHub', href: '' },
     { label: 'LinkedIn', href: '' },
@@ -116,3 +123,12 @@ export const siteConfig = {
 };
 
 export type SiteConfig = typeof siteConfig;
+
+/**
+ * The contact email and social links that are actually set. Everything that
+ * shows a contact link reads from here, so an empty value hides it everywhere.
+ */
+export const contact = {
+  email: siteConfig.contactEmail.trim(),
+  social: siteConfig.social.filter((s) => s.href.trim() !== '')
+};

@@ -8,7 +8,7 @@ import { Hero } from '~/components/home/Hero';
 import { LatencyExplorer } from '~/components/home/LatencyExplorer';
 import { homeMeta } from '~/content/home';
 import { site, siteUrl } from '~/lib/site';
-import { siteConfig } from '~/site.config';
+import { contact, siteConfig } from '~/site.config';
 import { seo } from '~/utils/seo';
 
 export const Route = createFileRoute('/')({
@@ -27,7 +27,8 @@ export const Route = createFileRoute('/')({
           alternateName: siteConfig.company,
           url: siteUrl('/'),
           logo: siteUrl('/logo.png'),
-          email: siteConfig.contactEmail,
+          ...(contact.email ? { email: contact.email } : {}),
+          ...(contact.social.length ? { sameAs: contact.social.map((s) => s.href) } : {}),
           numberOfEmployees: { '@type': 'QuantitativeValue', value: siteConfig.companySize },
           address: {
             '@type': 'PostalAddress',

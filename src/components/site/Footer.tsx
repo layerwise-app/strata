@@ -2,7 +2,7 @@ import { Link } from '@tanstack/react-router';
 import { architectureSections, architectureUpdated } from '~/content/architecture';
 import { caseStudy, designPartners, developers, engine, guarantees, hero, latency } from '~/content/home';
 import { privacy, terms } from '~/content/legal';
-import { siteConfig } from '~/site.config';
+import { contact, siteConfig } from '~/site.config';
 import { LogoMark } from './Logo';
 import { SiteLink } from './SiteLink';
 
@@ -29,7 +29,6 @@ const year = [
   ?.slice(0, 4);
 
 export function Footer() {
-  const social = siteConfig.social.filter((s) => s.href);
   return (
     <footer className='mt-16 border-t border-ink bg-paper'>
       <div className='mx-auto grid max-w-[1360px] gap-x-8 gap-y-10 px-4 py-12 sm:px-6 md:grid-cols-12 lg:px-8'>
@@ -83,15 +82,17 @@ export function Footer() {
                   Terms
                 </Link>
               </li>
-              <li>
-                <a
-                  href={`mailto:${siteConfig.contactEmail}`}
-                  className='link inline-flex min-h-11 items-center md:min-h-9 break-all'
-                >
-                  {siteConfig.contactEmail}
-                </a>
-              </li>
-              {social.map((s) => (
+              {contact.email ? (
+                <li>
+                  <a
+                    href={`mailto:${contact.email}`}
+                    className='link inline-flex min-h-11 items-center md:min-h-9 break-all'
+                  >
+                    {contact.email}
+                  </a>
+                </li>
+              ) : null}
+              {contact.social.map((s) => (
                 <li key={s.label}>
                   <SiteLink href={s.href} className='link inline-flex min-h-11 items-center md:min-h-9'>
                     {s.label}
